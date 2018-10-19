@@ -4,14 +4,30 @@ services:
     image: "eclipse-mosquitto"
     volumes: 
       - ./mosquitto/config/mosquitto.conf:/mosquitto/config/mosquitto.conf
-      - /mosquitto/log
+      - ./mosquitto/log:/mosquitto/log
     restart: always
     ports:
       - "1883:1883"
-      - "8883:8080"
+      - "8883:8883"
 
   redis:
     image: "redis:alpine"
     restart: always
     ports:
       - "6379:6379"
+
+  mongodb:
+    image: "mongo"
+    volumes: 
+      - ./mongodb/db:/data/db
+      # - ./mongodb/config/mongod.conf:/etc/mongo/mongod.conf
+    ports:
+      - "27017:27017"
+
+  rabbitmq:
+    image: "rabbitmq:3.7.8-management-alpine"
+    restart: always
+    ports:
+      - "15672:15672"
+      - "15674:15674"
+      - "5672:5672"
